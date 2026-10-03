@@ -52,45 +52,38 @@ class SoundManager:
         return pygame.mixer.Sound(buffer=bytes(buf))
 
     def _generate_sfx(self):
-        # Jump SFX: fast pitch slide up
         def sfx_jump(t, p):
             f = 180 + 520 * (p ** 0.6)
             env = max(0.0, 1.0 - p)
             return (1.0 if math.sin(2.0 * math.pi * f * t) > 0 else -1.0) * env * 0.35
 
-        # Double Jump SFX: higher sweep
         def sfx_double_jump(t, p):
             f = 350 + 650 * (p ** 0.5)
             env = max(0.0, 1.0 - p)
             return math.sin(2.0 * math.pi * f * t) * env * 0.45
 
-        # Fruit Collect: sparkling arpeggio
         def sfx_fruit(t, p):
             if p < 0.33:
-                f = 523.25  # C5
+                f = 523.25
             elif p < 0.66:
-                f = 659.25  # E5
+                f = 659.25
             else:
-                f = 783.99  # G5
+                f = 783.99
             env = max(0.0, 1.0 - (p % 0.33) * 3) * (1.0 - p * 0.5)
             wave = math.sin(2.0 * math.pi * f * t) + 0.4 * math.sin(4.0 * math.pi * f * t)
             return wave * env * 0.3
 
-        # Trampoline Bounce: springy sweep
         def sfx_trampoline(t, p):
             f = 120 + 800 * (p ** 1.5)
             env = max(0.0, 1.0 - p * 0.8)
             return math.sin(2.0 * math.pi * f * t) * env * 0.4
 
-        # Hit / Hurt SFX: crunchy noise + down sweep
         def sfx_hit(t, p):
-            f = 280 * (1.0 - p * 0.7)
             noise = ((int(t * 44100) * 1103515245 + 12345) % 2000 - 1000) / 1000.0
-            square = 1.0 if math.sin(2.0 * math.pi * f * t) > 0 else -1.0
+            square = 1.0 if math.sin(2.0 * math.pi * 280 * (1.0 - p * 0.7) * t) > 0 else -1.0
             env = max(0.0, 1.0 - p)
             return (square * 0.6 + noise * 0.4) * env * 0.45
 
-        # Checkpoint chime
         def sfx_checkpoint(t, p):
             notes = [392.00, 523.25, 659.25, 783.99]
             idx = min(int(p * len(notes)), len(notes) - 1)
@@ -99,7 +92,6 @@ class SoundManager:
             env = max(0.0, 1.0 - step_p * 1.5)
             return math.sin(2.0 * math.pi * f * t) * env * 0.35
 
-        # Win fanfare
         def sfx_win(t, p):
             notes = [523.25, 659.25, 783.99, 1046.50]
             idx = min(int(p * len(notes)), len(notes) - 1)
@@ -108,19 +100,16 @@ class SoundManager:
             env = max(0.0, 1.0 - step_p * 0.8)
             return (1.0 if math.sin(2.0 * math.pi * f * t) > 0 else -1.0) * env * 0.3
 
-        # Game over sound
         def sfx_game_over(t, p):
             f = 350 - 200 * p
             env = max(0.0, 1.0 - p * 0.8)
             return (1.0 if math.sin(2.0 * math.pi * f * t) > 0 else -1.0) * env * 0.35
 
-        # Box Break
         def sfx_box_break(t, p):
             noise = ((int(t * 44100) * 1103515245 + 12345) % 2000 - 1000) / 1000.0
             env = max(0.0, 1.0 - p * 2.0)
             return noise * env * 0.4
 
-        # UI Click
         def sfx_click(t, p):
             f = 600 + 400 * p
             env = max(0.0, 1.0 - p * 2.0)
@@ -144,18 +133,14 @@ class SoundManager:
             bpm = 135
             beat_dur = 60.0 / bpm
             step_dur = beat_dur / 4.0
-            steps = 64  # 4 bars
+            steps = 64
             melody_notes = [
-                # Bar 1
                 261.63, 0, 329.63, 0, 392.00, 0, 523.25, 392.00,
                 329.63, 0, 261.63, 0, 293.66, 0, 329.63, 0,
-                # Bar 2
                 349.23, 0, 392.00, 0, 440.00, 0, 523.25, 440.00,
                 392.00, 0, 349.23, 0, 329.63, 0, 293.66, 0,
-                # Bar 3
                 261.63, 0, 329.63, 0, 392.00, 0, 587.33, 523.25,
                 440.00, 0, 392.00, 0, 349.23, 0, 329.63, 0,
-                # Bar 4
                 293.66, 0, 349.23, 0, 392.00, 0, 440.00, 392.00,
                 329.63, 0, 293.66, 0, 261.63, 0, 0, 0
             ]
@@ -169,7 +154,7 @@ class SoundManager:
                 m_freq = melody_notes[s % len(melody_notes)]
                 b_freq = bass_roots[(s // 16) % len(bass_roots)]
                 if (s % 4) == 2:
-                    b_freq *= 1.5  # fifth
+                    b_freq *= 1.5
                 for i in range(samples_per_step):
                     t_rel = i / samples_per_step
                     m_val = 0.0

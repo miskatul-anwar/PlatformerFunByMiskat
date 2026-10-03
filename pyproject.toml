@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "PlatformerFunByMiskat"
+version = "1.0.0"
+description = "A 2D retro pixel platformer adventure built with Pygame"
+authors = [{ name = "Miskatul Anwar" }]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "pygame>=2.5.0",
+]
+
+[project.scripts]
+platformer-fun = "main:main"

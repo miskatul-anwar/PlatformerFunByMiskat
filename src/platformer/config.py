@@ -1,9 +1,20 @@
+import os
+from pathlib import Path
+
+# Paths
+PACKAGE_DIR = Path(__file__).resolve().parent
+PROJECT_ROOT = PACKAGE_DIR.parent.parent
+ASSETS_DIR = PROJECT_ROOT / "assets"
+SAVE_FILE = PROJECT_ROOT / "save_data.json"
+
+# Screen & Display
 WIDTH = 1080
 HEIGHT = 680
 FPS = 60
 BLOCK_SIZE = 64
+TITLE = "Platformer Fun by Miskat"
 
-# Physics
+# Physics Settings
 GRAVITY = 0.75
 MAX_FALL_SPEED = 14.0
 PLAYER_SPEED = 5.5
@@ -17,7 +28,7 @@ INVULN_FRAMES = 90
 MAX_HEALTH = 3
 INITIAL_LIVES = 3
 
-# Game States
+# Game State Enums
 STATE_MENU = "menu"
 STATE_CHAR_SELECT = "char_select"
 STATE_LEVEL_SELECT = "level_select"
@@ -27,7 +38,7 @@ STATE_LEVEL_CLEAR = "level_clear"
 STATE_GAME_OVER = "game_over"
 STATE_VICTORY = "victory"
 
-# Characters Info
+# Characters Configuration
 CHARACTERS = {
     "VirtualGuy": {
         "name": "Virtual Guy",
@@ -61,7 +72,7 @@ CHARACTERS = {
 
 CHARACTER_NAMES = ["VirtualGuy", "NinjaFrog", "PinkMan", "MaskDude"]
 
-# UI & Colors
+# Color Palette
 COLOR_WHITE = (255, 255, 255)
 COLOR_BLACK = (0, 0, 0)
 COLOR_BG_DARK = (24, 26, 36)

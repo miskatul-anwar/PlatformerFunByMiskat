@@ -79,21 +79,65 @@ uv pip install pygame
 ### Run the Game
 
 ```bash
+# Recommended
+python main.py
+
+# Or via package execution
+python -m src.platformer
+
+# Legacy alias (also supported)
 python miskat.py
 ```
 
 ---
 
-## 📁 Project Architecture
+## 📁 Project Architecture & Directory Hierarchy
 
-- `miskat.py`: Game loop, state machine, camera tracking, and level lifecycle management.
-- `constants.py`: Screen metrics, physics values, colors, and character definitions.
-- `entities.py`: Player physics, collectibles, traps, boxes, trampolines, fans, and particles.
-- `levels.py`: Handcrafted layouts and obstacle sequences for all 5 stages.
-- `sprites.py`: Sprite sheet slicer, animation caching, and terrain generator.
-- `sound.py`: Procedural audio synthesizer for SFX and chiptune BGM.
-- `ui.py`: Custom buttons, pixel HUD, menus, and end-of-stage overlays.
-- `assets/`: Pixel Adventure character sheets, terrain textures, hazards, fruits, and backgrounds.
+```
+PlatformerFunByMiskat/
+├── assets/                          # Pixel Adventure game art assets
+│   ├── Background/                  # Parallax & seamless repeating backgrounds
+│   ├── Items/                       # Collectibles (Fruits), Boxes, Checkpoints, Trophies
+│   ├── MainCharacters/              # 4 Animated heroes (Virtual Guy, Ninja Frog, Pink Man, Mask Dude)
+│   ├── Menu/                        # Buttons and level icons
+│   ├── Other/                       # Confetti, dust particles, and effects
+│   ├── Terrain/                     # Tileset sheets
+│   └── Traps/                       # Saws, Spikes, Fire, Trampolines, Fans, Falling Platforms
+├── src/
+│   └── platformer/
+│       ├── __init__.py
+│       ├── __main__.py              # Package execution entry point
+│       ├── config.py                # Game settings, physics constants, colors, and asset paths
+│       ├── core/
+│       │   ├── __init__.py
+│       │   ├── game.py              # Core Game loop, state machine, and camera tracking
+│       │   ├── sound.py             # Procedural 8-bit audio synthesizer (SFX & chiptune BGM)
+│       │   └── storage.py           # Save file manager (high scores & star ratings)
+│       ├── entities/
+│       │   ├── __init__.py
+│       │   ├── player.py            # Player physics, coyote time, jump buffer, health & animations
+│       │   ├── terrain.py           # Solid blocks, falling platforms, and moving platforms
+│       │   ├── hazards.py           # Buzzsaws, fire traps, and spikes
+│       │   ├── interactables.py     # Trampolines, wind fans, checkpoints, and goal trophies
+│       │   ├── items.py             # Collectible fruits and breakable mystery boxes
+│       │   └── effects.py           # Confetti particles and floating score indicators
+│       ├── graphics/
+│       │   ├── __init__.py
+│       │   └── sprites.py           # Sprite sheet slicer, animation caching, and tile loader
+│       ├── levels/
+│       │   ├── __init__.py
+│       │   └── levels.py            # Handcrafted stage data (Levels 1 to 5)
+│       └── ui/
+│           ├── __init__.py
+│           ├── button.py            # Interactive UI buttons with hover and click sounds
+│           ├── hud.py               # Pixel health hearts, score, stage timer, and fruit counter
+│           └── screens.py           # Main Menu, Character Select, Level Select, and overlays
+├── main.py                          # Primary application entry point
+├── miskat.py                        # Backwards-compatible legacy entry point
+├── requirements.txt                 # Project dependencies
+├── pyproject.toml                   # Standard packaging metadata
+└── README.md                        # Documentation
+```
 
 ---
 
